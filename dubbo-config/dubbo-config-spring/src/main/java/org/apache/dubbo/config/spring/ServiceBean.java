@@ -53,7 +53,7 @@ import static org.apache.dubbo.common.constants.CommonConstants.COMMA_SPLIT_PATT
 import static org.apache.dubbo.config.spring.util.BeanFactoryUtils.addApplicationListener;
 
 /**
- * ServiceFactoryBean
+ * ServiceFactoryBean  生产者注册逻辑，并暴露服务
  *
  * @export
  */

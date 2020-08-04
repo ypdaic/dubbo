@@ -221,7 +221,7 @@ public class AnnotationUtils {
             String attributeName = entry.getKey();
             Object attributeValue = entry.getValue();
 
-            // ignore default attribute value
+            // ignore default attribute value 忽略默认属性值
             if (ignoreDefaultValue && nullSafeEquals(attributeValue, getDefaultValue(annotation, attributeName))) {
                 continue;
             }
