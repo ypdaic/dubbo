@@ -103,13 +103,13 @@ public class DubboConfigBindingRegistrar implements ImportBeanDefinitionRegistra
                 Collections.singleton(resolveSingleBeanName(properties, configClass, registry));
 
         for (String beanName : beanNames) {
-
+            // 注册@EnableDubboConfigBindings 配置的配置类
             registerDubboConfigBean(beanName, configClass, registry);
-
+            // 为每个配置类配置一个DubboConfigBindingBeanPostProcessor用于给配置类注入相应的值
             registerDubboConfigBindingBeanPostProcessor(prefix, beanName, multiple, registry);
 
         }
-
+        // 注册自定义配置
         registerDubboConfigBeanCustomizers(registry);
 
     }
