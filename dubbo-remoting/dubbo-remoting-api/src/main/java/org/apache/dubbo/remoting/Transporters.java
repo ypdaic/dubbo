@@ -76,6 +76,7 @@ public class Transporters {
     }
 
     public static Transporter getTransporter() {
+        // 默认使用netty的
         return ExtensionLoader.getExtensionLoader(Transporter.class).getAdaptiveExtension();
     }
 

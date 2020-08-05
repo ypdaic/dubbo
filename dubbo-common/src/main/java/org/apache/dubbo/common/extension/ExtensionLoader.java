@@ -541,6 +541,7 @@ public class ExtensionLoader<T> {
             }
             // 属性自动注入
             injectExtension(instance);
+            // 如果存在Wrapper相应的实现,则使用装饰器模式保证这些Wrapper实现类，最后提供的Wrapper
             Set<Class<?>> wrapperClasses = cachedWrapperClasses;
             if (CollectionUtils.isNotEmpty(wrapperClasses)) {
                 for (Class<?> wrapperClass : wrapperClasses) {
@@ -746,6 +747,7 @@ public class ExtensionLoader<T> {
         if (clazz.isAnnotationPresent(Adaptive.class)) {
             cacheAdaptiveClass(clazz);
         } else if (isWrapperClass(clazz)) {
+            // 如果存在接口参数的构造器则说明存在Wrapper实现类
             cacheWrapperClass(clazz);
         } else {
             clazz.getConstructor();
@@ -830,6 +832,7 @@ public class ExtensionLoader<T> {
         if (cachedWrapperClasses == null) {
             cachedWrapperClasses = new ConcurrentHashSet<>();
         }
+        // set保存，没有顺序
         cachedWrapperClasses.add(clazz);
     }
 
