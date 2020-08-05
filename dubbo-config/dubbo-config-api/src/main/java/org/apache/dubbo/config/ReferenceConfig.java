@@ -393,6 +393,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
             }
 
             if (urls.size() == 1) {
+                //registry://127.0.0.1:2182/org.apache.dubbo.registry.RegistryService?application=dubbo-demo-annotation-consumer&dubbo=2.0.2&pid=81447&refer=application%3Ddubbo-demo-annotation-consumer%26dubbo%3D2.0.2%26interface%3Dorg.apache.dubbo.demo.DemoService%26lazy%3Dfalse%26methods%3DsayHello%26pid%3D81447%26register.ip%3D192.168.0.139%26side%3Dconsumer%26sticky%3Dfalse%26timestamp%3D1596608082872&registry=zookeeper&timestamp=1596608107756
                 invoker = REF_PROTOCOL.refer(interfaceClass, urls.get(0));
             } else {
                 List<Invoker<?>> invokers = new ArrayList<Invoker<?>>();

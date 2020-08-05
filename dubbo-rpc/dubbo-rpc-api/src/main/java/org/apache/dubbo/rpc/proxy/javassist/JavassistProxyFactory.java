@@ -19,6 +19,7 @@ package org.apache.dubbo.rpc.proxy.javassist;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.bytecode.Proxy;
 import org.apache.dubbo.common.bytecode.Wrapper;
+import org.apache.dubbo.common.extension.Adaptive;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.proxy.AbstractProxyFactory;
 import org.apache.dubbo.rpc.proxy.AbstractProxyInvoker;

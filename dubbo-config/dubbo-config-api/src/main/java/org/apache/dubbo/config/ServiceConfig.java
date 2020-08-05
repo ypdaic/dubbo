@@ -120,6 +120,11 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
     private static final Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
 
     /**
+     * 默认使用JavassistProxyFactory，也就是当我们没有在spi文件中指定时
+     * dubbo-rpc-api的配置的，由于没有实例类使用了@Adaptive注解，所以会生成代理，然后根据url的proxy参数来判断是用jdk还是javassist，默认是javassist
+     * stub=org.apache.dubbo.rpc.proxy.wrapper.StubProxyFactoryWrapper
+     * jdk=org.apache.dubbo.rpc.proxy.jdk.JdkProxyFactory
+     * javassist=org.apache.dubbo.rpc.proxy.javassist.JavassistProxyFactory
      * A {@link ProxyFactory} implementation that will generate a exported service proxy,the JavassistProxyFactory is its
      * default implementation
      */
@@ -401,6 +406,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         return (delay == null && provider != null) ? provider.getDelay() : delay;
     }
 
+    // 开始暴露
     protected synchronized void doExport() {
         if (unexported) {
             throw new IllegalStateException("The service " + interfaceClass.getName() + " has already unexported!");
@@ -448,8 +454,12 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         unexported = true;
     }
 
+    /**
+     * 开始暴露url
+     */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void doExportUrls() {
+        //   registry://127.0.0.1:2182/org.apache.dubbo.registry.RegistryService?application=dubbo-demo-annotation-provider&dubbo=2.0.2&pid=81059&registry=zookeeper&timestamp=1596599936993
         List<URL> registryURLs = loadRegistries(true);
         for (ProtocolConfig protocolConfig : protocols) {
             String pathKey = URL.buildKey(getContextPath(protocolConfig).map(p -> p + "/" + path).orElse(path), group, version);
@@ -605,7 +615,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
 
                         Invoker<?> invoker = PROXY_FACTORY.getInvoker(ref, (Class) interfaceClass, registryURL.addParameterAndEncoded(EXPORT_KEY, url.toFullString()));
                         DelegateProviderMetaDataInvoker wrapperInvoker = new DelegateProviderMetaDataInvoker(invoker, this);
-
+                        //
                         Exporter<?> exporter = protocol.export(wrapperInvoker);
                         exporters.add(exporter);
                     }
@@ -637,6 +647,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
      * always export injvm
      */
     private void exportLocal(URL url) {
+        //injvm://127.0.0.1/org.apache.dubbo.demo.DemoService?anyhost=true&application=dubbo-demo-annotation-provider&bean.name=ServiceBean:org.apache.dubbo.demo.DemoService&bind.ip=192.168.0.139&bind.port=20880&deprecated=false&dubbo=2.0.2&dynamic=true&generic=false&interface=org.apache.dubbo.demo.DemoService&methods=sayHello&pid=81355&release=&side=provider&timestamp=1596606398808
         URL local = URLBuilder.from(url)
                 .setProtocol(LOCAL_PROTOCOL)
                 .setHost(LOCALHOST_VALUE)

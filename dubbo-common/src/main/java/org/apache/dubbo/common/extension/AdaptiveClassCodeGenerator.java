@@ -203,7 +203,7 @@ public class AdaptiveClassCodeGenerator {
         } else {
             int urlTypeIndex = getUrlTypeIndex(method);
 
-            // found parameter in URL type
+            // found parameter in URL type￿
             if (urlTypeIndex != -1) {
                 // Null Point check
                 code.append(generateUrlNullCheck(urlTypeIndex));

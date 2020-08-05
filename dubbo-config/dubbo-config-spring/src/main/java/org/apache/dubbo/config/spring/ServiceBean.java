@@ -115,6 +115,10 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
         }
     }
 
+    /**
+     * 通过配置参数封装相关属性
+     * @throws Exception
+     */
     @Override
     @SuppressWarnings({"unchecked", "deprecation"})
     public void afterPropertiesSet() throws Exception {
@@ -329,7 +333,7 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
     }
 
     /**
-     * @since 2.6.5
+     * @since 2.6.5 服务暴露
      */
     @Override
     public void export() {

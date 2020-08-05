@@ -108,6 +108,12 @@ public class ExtensionLoader<T> {
         return type.isAnnotationPresent(SPI.class);
     }
 
+    /**
+     * 为每个SPI接口创建一个ExtensionLoader，并缓存起来
+     * @param type
+     * @param <T>
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public static <T> ExtensionLoader<T> getExtensionLoader(Class<T> type) {
         if (type == null) {
@@ -465,6 +471,10 @@ public class ExtensionLoader<T> {
         }
     }
 
+    /**
+     * 获取 包含有@Adaptive注解的实现，如果没有会生成一个Adaptive的实现类
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public T getAdaptiveExtension() {
         Object instance = cachedAdaptiveInstance.get();
@@ -529,6 +539,7 @@ public class ExtensionLoader<T> {
                 EXTENSION_INSTANCES.putIfAbsent(clazz, clazz.newInstance());
                 instance = (T) EXTENSION_INSTANCES.get(clazz);
             }
+            // 属性自动注入
             injectExtension(instance);
             Set<Class<?>> wrapperClasses = cachedWrapperClasses;
             if (CollectionUtils.isNotEmpty(wrapperClasses)) {
@@ -544,7 +555,7 @@ public class ExtensionLoader<T> {
     }
 
     private T injectExtension(T instance) {
-
+        // objectFactory就是用于属性自动注入，其默认有两个实现SpiExtensionFactory（用于从dubbo中获取），SpringExtensionFactory（用于从spring中获取）
         if (objectFactory == null) {
             return instance;
         }
@@ -731,6 +742,7 @@ public class ExtensionLoader<T> {
                     type + ", class line: " + clazz.getName() + "), class "
                     + clazz.getName() + " is not subtype of interface.");
         }
+        // 注解形式的Adaptive，后面就用这个获取具体的实现类，没有Adaptive的话，会生成一个代理类
         if (clazz.isAnnotationPresent(Adaptive.class)) {
             cacheAdaptiveClass(clazz);
         } else if (isWrapperClass(clazz)) {
