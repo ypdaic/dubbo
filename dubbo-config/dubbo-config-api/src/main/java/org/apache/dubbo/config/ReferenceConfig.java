@@ -269,6 +269,9 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         ref = null;
     }
 
+    /**
+     * 开始导入代理类
+     */
     private void init() {
         if (initialized) {
             return;

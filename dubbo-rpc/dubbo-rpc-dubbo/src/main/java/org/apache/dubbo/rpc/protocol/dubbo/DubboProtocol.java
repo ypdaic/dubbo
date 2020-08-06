@@ -411,6 +411,11 @@ public class DubboProtocol extends AbstractProtocol {
         return invoker;
     }
 
+    /**
+     * 获取客户端，通过url上的connections参数获取要创建的客户端的数量
+     * @param url
+     * @return
+     */
     private ExchangeClient[] getClients(URL url) {
         // whether to share connection
 

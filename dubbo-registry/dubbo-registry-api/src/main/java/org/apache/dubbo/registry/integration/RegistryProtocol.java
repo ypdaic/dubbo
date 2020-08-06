@@ -164,6 +164,10 @@ public class RegistryProtocol implements Protocol {
         this.protocol = protocol;
     }
 
+    /**
+     * 自动注入的
+     * @param registryFactory
+     */
     public void setRegistryFactory(RegistryFactory registryFactory) {
         this.registryFactory = registryFactory;
     }
@@ -182,6 +186,7 @@ public class RegistryProtocol implements Protocol {
     }
 
     public void register(URL registryUrl, URL registeredProviderUrl) {
+        // dubbo://192.168.0.139:20880/org.apache.dubbo.demo.DemoService?anyhost=true&application=dubbo-demo-annotation-provider&bean.name=ServiceBean:org.apache.dubbo.demo.DemoService&deprecated=false&dubbo=2.0.2&dynamic=true&generic=false&interface=org.apache.dubbo.demo.DemoService&methods=sayHello&pid=84949&release=&side=provider&timestamp=1596683141456
         Registry registry = registryFactory.getRegistry(registryUrl);
         registry.register(registeredProviderUrl);
     }
@@ -406,6 +411,7 @@ public class RegistryProtocol implements Protocol {
                 return doRefer(getMergeableCluster(), registry, type, url);
             }
         }
+        // 开始中注册中心获取服务
         return doRefer(cluster, registry, type, url);
     }
 
