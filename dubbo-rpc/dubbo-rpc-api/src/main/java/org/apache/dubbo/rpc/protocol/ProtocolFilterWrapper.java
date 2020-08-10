@@ -112,7 +112,7 @@ public class ProtocolFilterWrapper implements Protocol {
                 };
             }
         }
-
+        // filter的调用顺序按照配置的顺序来，最终调到AsyncToSyncInvoker，如果出现异常且filter是ListenableFilter，则调用onError方法
         return new CallbackRegistrationInvoker<>(last, filters);
     }
 
