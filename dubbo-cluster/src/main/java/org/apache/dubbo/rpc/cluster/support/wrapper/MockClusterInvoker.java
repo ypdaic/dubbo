@@ -73,6 +73,7 @@ public class MockClusterInvoker<T> implements Invoker<T> {
         Result result = null;
 
         String value = directory.getUrl().getMethodParameter(invocation.getMethodName(), MOCK_KEY, Boolean.FALSE.toString()).trim();
+        // 不走mock
         if (value.length() == 0 || "false".equalsIgnoreCase(value)) {
             //no mock
             result = this.invoker.invoke(invocation);

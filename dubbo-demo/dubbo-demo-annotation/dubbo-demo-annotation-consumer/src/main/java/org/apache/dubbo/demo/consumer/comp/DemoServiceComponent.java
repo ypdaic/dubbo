@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Component("demoServiceComponent")
 public class DemoServiceComponent implements DemoService {
-    @Reference
+    @Reference(proxy = "jdk", cluster = "failover")
     private DemoService demoService;
 
     @Override
