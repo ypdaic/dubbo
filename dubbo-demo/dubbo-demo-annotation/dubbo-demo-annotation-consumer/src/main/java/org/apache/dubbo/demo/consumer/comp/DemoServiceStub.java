@@ -19,28 +19,20 @@
 
 package org.apache.dubbo.demo.consumer.comp;
 
-import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.demo.DemoService;
 
-import org.springframework.stereotype.Component;
+public class DemoServiceStub implements DemoService {
 
-@Component("demoServiceComponent")
-public class DemoServiceComponent implements DemoService {
-    /**
-     * mock 在服务调用失败时起作用
-     * mock return 表示返回null
-     * mock return `mock`  表示返回mock
-     * mock demoService 或者其他的值则需要提供一个DemoServiceMock的实现，并且和DemoService在同一个包中
-     * mock true 或者 default 提供一个DemoServiceMock的实现，并且和DemoService在同一个包中
-     * mock org.apache.dubbo.demo.consumer.comp.DemoServiceMock 必须指定全类名
-     *
-     * stub 用于远程方法执行前后做处理
-     */
-    @Reference(proxy = "jdk", cluster = "failover", mock = "org.apache.dubbo.demo.consumer.comp.DemoServiceMock", check = false, stub = "org.apache.dubbo.demo.consumer.comp.DemoServiceStub")
     private DemoService demoService;
 
+    public DemoServiceStub(DemoService demoService) {
+        this.demoService = demoService;
+    }
     @Override
     public String sayHello(String name) {
-        return demoService.sayHello(name);
+        System.out.println("执行远程方法前置处理");
+        String result = demoService.sayHello(name);
+        System.out.println("执行远程方法后置处理");
+        return "test";
     }
 }
